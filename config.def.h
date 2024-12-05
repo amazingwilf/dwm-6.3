@@ -1,52 +1,54 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 3;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static int floatposgrid_x           = 5;        /* float grid columns */
-static int floatposgrid_y           = 5;        /* float grid rows */
-static const char *toggle_float_pos      = "50% 50% 80% 80%"; // default floating position when triggering togglefloating
-static const int attachmode         = 2;        /* 0 master (default), 1 = above, 2 = aside, 3 = below, 4 = bottom */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
-static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
-static const unsigned int gappoh    = 20;       /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov    = 20;       /* vert outer gap between windows and screen edge */
-static       int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
-static const char statussep         = ';';      /* separator between status bars */
+static const unsigned int borderpx	= 3;
+static const unsigned int snap      = 32;
+static int floatposgrid_x           = 5;
+static int floatposgrid_y           = 5;
+static const char *toggle_float_pos	= "50% 50% 80% 80%";
+static const int attachmode         = 2; 
+static const int showbar            = 1;
+static const int topbar             = 1;
+static const unsigned int gappih    = 10;
+static const unsigned int gappiv    = 10;
+static const unsigned int gappoh    = 20;
+static const unsigned int gappov    = 20;
+static       int smartgaps          = 0;
+static const char statussep         = ';';
 static const char buttonbar[]       = " ";
-#define ICONSIZE (bh - 10)  /* icon size */
-#define ICONSPACING 12 /* space between icon and title */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=15" };
+#define ICONSIZE (bh - 10)
+#define ICONSPACING 12
+static const char *fonts[]          = { "Noto Sans:size=15",
+										"JetBrainsMono Nerd Font:size=15",
+										"JetBrainsMono Nerd Font:style=Bold:size=13" };
 
 #include "termcolors.h"
 
 static char normfgcolor[]       = "#bbbbbb";
 static char normbgcolor[]       = "#222222";
 static char normbordercolor[]   = "#444444";
+static char normfloatcolor[]    = "#444444";
 
 static char selfgcolor[]        = "#eeeeee";
 static char selbgcolor[]        = "#005588";
 static char selbordercolor[]    = "#005577";
+static char selfloatcolor[]     = "#005577";
 
-static char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm]	= { normfgcolor,	normbgcolor,	normbordercolor },
-	[SchemeSel]		= { selfgcolor,		selbgcolor,		selbordercolor  },
+static char *colors[][4]      = {
+	[SchemeNorm]	= { normfgcolor,	normbgcolor,	normbordercolor,	normfloatcolor },
+	[SchemeSel]		= { selfgcolor,		selbgcolor,		selbordercolor,		selfloatcolor  },
 };
 
 static const unsigned int baralpha = 0xa0;
 static const unsigned int borderalpha = OPAQUE;
 
-static const unsigned int alphas[][3]      = {
-	/*               fg      bg        border     */
-	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
-	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
+static const unsigned int alphas[][4]      = {
+	[SchemeNorm] = { OPAQUE, baralpha, borderalpha, borderalpha },
+	[SchemeSel]  = { OPAQUE, baralpha, borderalpha, borderalpha },
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "I", "II", "III", "IV", "V", "VI" };
 
 static const unsigned int ulinepad	= 5;	/* horizontal padding between the underline and tag */
 static const unsigned int ulinestroke	= 2;	/* thickness / height of the underline */
@@ -148,14 +150,17 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,						XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY,           			XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
 	{ MODKEY|ShiftMask,             XK_g,      togglegaps,     {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
-	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_Right,  viewnext,       {0} },
+	{ MODKEY,                       XK_Left,   viewprev,       {0} },
+	{ MODKEY|ShiftMask,             XK_Right,  tagtonext,      {0} },
+	{ MODKEY|ShiftMask,             XK_Left,   tagtoprev,      {0} },
 	{ MODKEY|ShiftMask,             XK_x,      xrdb,           {.v = NULL } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
@@ -167,6 +172,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_r,      quit,           {1} }, 
 };
 
 /* button definitions */
