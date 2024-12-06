@@ -24,6 +24,8 @@ static const char *fonts[]          = { "Noto Sans:size=15",
 
 #include "termcolors.h"
 
+static char c000000[]			= "#000000";
+
 static char normfgcolor[]       = "#bbbbbb";
 static char normbgcolor[]       = "#222222";
 static char normbordercolor[]   = "#444444";
@@ -34,17 +36,26 @@ static char selbgcolor[]        = "#005588";
 static char selbordercolor[]    = "#005577";
 static char selfloatcolor[]     = "#005577";
 
+static char scratchnormbordercolor[]	= "#444444";
+static char scratchnormfloatcolor[]		= "#444444";
+static char scratchselbordercolor[]		= "#007799";
+static char scratchselfloatcolor[]		= "#007799";
+
 static char *colors[][4]      = {
-	[SchemeNorm]	= { normfgcolor,	normbgcolor,	normbordercolor,	normfloatcolor },
-	[SchemeSel]		= { selfgcolor,		selbgcolor,		selbordercolor,		selfloatcolor  },
+	[SchemeNorm]		= { normfgcolor,	normbgcolor,	normbordercolor,		normfloatcolor },
+	[SchemeSel]			= { selfgcolor,		selbgcolor,		selbordercolor,			selfloatcolor  },
+	[SchemeScratchNorm]	= { c000000,		c000000,		scratchnormbordercolor,	scratchnormfloatcolor },
+	[SchemeScratchSel]	= { c000000,		c000000,		scratchselbordercolor,	scratchselfloatcolor },
 };
 
 static const unsigned int baralpha = 0xa0;
 static const unsigned int borderalpha = OPAQUE;
 
 static const unsigned int alphas[][4]      = {
-	[SchemeNorm] = { OPAQUE, baralpha, borderalpha, borderalpha },
-	[SchemeSel]  = { OPAQUE, baralpha, borderalpha, borderalpha },
+	[SchemeNorm] 		= { OPAQUE, baralpha, borderalpha, borderalpha },
+	[SchemeSel]  		= { OPAQUE, baralpha, borderalpha, borderalpha },
+	[SchemeScratchNorm] = { OPAQUE, baralpha, borderalpha, borderalpha },
+	[SchemeScratchSel]	= { OPAQUE, baralpha, borderalpha, borderalpha },
 };
 
 /* tagging */
@@ -62,6 +73,7 @@ static const Rule rules[] = {
 	 */
 	{ .class = "Lxappearance", .isfloating = 1, .floatpos = "50% 50% -1h -1w" },
 	{ .class = "Firefox", .tags = 1 << 1 },
+	{ .class = "spterm", .scratchkey = 't', .isfloating = 1, .floatpos = "50% 50% 80% 80%" },
 };
 
 /* Bar rules allow you to configure what is shown where on the bar, as well as
@@ -131,11 +143,14 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const char *roficmd[]    = { "rofi", "-show", "drun", NULL };
 static const char *webcmd[]     = { "firefox", NULL };
 
+static const char *sptermcmd[]	= { "t", "alacritty", "--class", "spterm,spterm", NULL };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_space,  spawn,          {.v = roficmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_w,      spawn,          {.v = webcmd } },
+	{ MODKEY,						XK_grave,  togglescratch,  {.v = sptermcmd } },
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
