@@ -41,11 +41,18 @@ static char scratchnormfloatcolor[]		= "#444444";
 static char scratchselbordercolor[]		= "#007799";
 static char scratchselfloatcolor[]		= "#007799";
 
+static char ltsymbolfgcolor[]			= "#ffff00";
+static char ltsymbolbgcolor[]			= "#222222";
+static char stbuttonfgcolor[]			= "#00ccaa";
+static char stbuttonbgcolor[]			= "#222222";
+
 static char *colors[][4]      = {
-	[SchemeNorm]		= { normfgcolor,	normbgcolor,	normbordercolor,		normfloatcolor },
-	[SchemeSel]			= { selfgcolor,		selbgcolor,		selbordercolor,			selfloatcolor  },
-	[SchemeScratchNorm]	= { c000000,		c000000,		scratchnormbordercolor,	scratchnormfloatcolor },
-	[SchemeScratchSel]	= { c000000,		c000000,		scratchselbordercolor,	scratchselfloatcolor },
+	[SchemeNorm]		= { normfgcolor,		normbgcolor,			normbordercolor,		normfloatcolor },
+	[SchemeSel]			= { selfgcolor,			selbgcolor,				selbordercolor,			selfloatcolor  },
+	[SchemeScratchNorm]	= { c000000,			c000000,				scratchnormbordercolor,	scratchnormfloatcolor },
+	[SchemeScratchSel]	= { c000000,			c000000,				scratchselbordercolor,	scratchselfloatcolor },
+	[SchemeLtSymbol]	= { ltsymbolfgcolor,	ltsymbolbgcolor,		c000000,				c000000 },
+	[SchemeStButton]	= { stbuttonfgcolor,	stbuttonbgcolor,		c000000,				c000000 },
 };
 
 static const unsigned int baralpha = 0xa0;
@@ -56,6 +63,8 @@ static const unsigned int alphas[][4]      = {
 	[SchemeSel]  		= { OPAQUE, baralpha, borderalpha, borderalpha },
 	[SchemeScratchNorm] = { OPAQUE, baralpha, borderalpha, borderalpha },
 	[SchemeScratchSel]	= { OPAQUE, baralpha, borderalpha, borderalpha },
+	[SchemeLtSymbol]	= { OPAQUE, baralpha, borderalpha, borderalpha },
+	[SchemeStButton]	= { OPAQUE, baralpha, borderalpha, borderalpha },
 };
 
 /* tagging */
@@ -91,9 +100,9 @@ static const Rule rules[] = {
 static const BarRule barrules[] = {
 	/* monitor  bar    alignment         widthfunc              drawfunc              clickfunc           name */
 	{ -1,       0,     BAR_ALIGN_LEFT,   width_stbutton,        draw_stbutton,        click_stbutton,     "statusbutton" },
-	{ -1,       0,     BAR_ALIGN_LEFT,   width_tags,            draw_tags,            click_tags,         "tags" },
+	{ -1,       1,     BAR_ALIGN_CENTER, width_tags,            draw_tags,            click_tags,         "tags" },
 	{ -1,       0,     BAR_ALIGN_LEFT,   width_ltsymbol,        draw_ltsymbol,        click_ltsymbol,     "layout" },
-	{ 'A',      0,     BAR_ALIGN_RIGHT,  width_status2d,        draw_status2d,        click_statuscmd,    "status2d" },
+	{ 'A',      0,     BAR_ALIGN_RIGHT, width_status2d,        draw_status2d,        click_statuscmd,    "status2d" },
 	{ -1,       0,     BAR_ALIGN_NONE,   width_wintitle,        draw_wintitle,        click_wintitle,     "wintitle" },
 	{ -2,       1,     BAR_ALIGN_CENTER, width_status2d_es,     draw_status2d_es,     click_statuscmd_es, "status2d_es" },
 

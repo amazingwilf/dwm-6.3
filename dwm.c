@@ -83,7 +83,8 @@
 /* enums */
 enum { CurResizeBR, CurResizeBL, CurResizeTR, CurResizeTL,
        CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeScratchNorm, SchemeScratchSel }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeScratchNorm, SchemeScratchSel,
+       SchemeLtSymbol, SchemeStButton }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMIcon, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetClientInfo, NetLast }; /* EWMH atoms */
@@ -1590,6 +1591,11 @@ loadxrdb()
         XRDB_LOAD_COLOR("dwm.scratchnormfloatcolor", scratchnormfloatcolor);
         XRDB_LOAD_COLOR("dwm.scratchselbordercolor", scratchselbordercolor);
         XRDB_LOAD_COLOR("dwm.scratchselfloatcolor", scratchselfloatcolor);
+
+        XRDB_LOAD_COLOR("dwm.ltsymbolfgcolor", ltsymbolfgcolor);
+        XRDB_LOAD_COLOR("dwm.ltsymbolbgcolor", ltsymbolbgcolor);
+        XRDB_LOAD_COLOR("dwm.stbuttonfgcolor", stbuttonfgcolor);
+        XRDB_LOAD_COLOR("dwm.stbuttonbgcolor", stbuttonbgcolor);
 
         XRDB_LOAD_COLOR("color0",  termcol0);
         XRDB_LOAD_COLOR("color1",  termcol1);

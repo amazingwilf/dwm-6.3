@@ -11,6 +11,7 @@ draw_ltsymbol(Bar *bar, BarDrawArg *a)
 	cur = drw->fonts; 
 	drw->fonts = drw->fonts->next;
 	drw->fonts = drw->fonts->next;
+	drw_setscheme(drw, scheme[SchemeLtSymbol]);
 	drw_text(drw, a->x, 0, a->w, bh, lrpad / 2, bar->mon->ltsymbol, 0);
 	drw->fonts = cur;
 	return 0;
